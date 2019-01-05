@@ -22,6 +22,7 @@
         android:layout_gravity="start"
         android:background="@color/colorPrimary"
         android:choiceMode="singleChoice"
+        android:cacheColorHint="@color/color_menu_hint"
         android:listSelector="@color/colorAccent"
         >
 

@@ -1,4 +1,4 @@
-package com.example.pc.myapplication;
+package com.example.js.tabacco;
 
 import org.junit.Test;
 
