@@ -33,7 +33,7 @@
                     android:layout_width="54dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/bar_icon_login"
-                    android:onClick="onClicked"/>
+                    android:onClick="onClickedLogin"/>
             </LinearLayout>
 
         </android.support.v7.widget.Toolbar>
