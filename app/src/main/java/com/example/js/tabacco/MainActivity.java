@@ -31,14 +31,27 @@ public class MainActivity extends AppCompatActivity
     private ListViewAdapter listViewAdapter= null;
     private userData user = null;
     DrawerLayout drawer=null;
-    int layarr[]={R.layout.content_login,R.layout.content_map,R.layout.content_tabacco,R.layout.content_lawfine,R.layout.content_notice,R.layout.content_term,R.layout.content_setting};
-    int drawarr[]={R.drawable.bar_icon_login,R.drawable.menu_icon_map,R.drawable.menu_icon_tabacco,R.drawable.menu_icon_law_fine,R.drawable.menu_icon_notice,R.drawable.menu_icon_terms_conditions,R.drawable.menu_icon_setting};
-    String strarr[]={"로그인 하세요.","MAP","TABACCO\nINFORMATION","LAW&FINE","NOTICE","TERMS AND \nCONDITIONS","SET-UP"};
+    int layarr[]={R.layout.content_login,R.layout.content_map,R.layout.content_tabacco,R.layout.content_lawfine,R.layout.content_notice};
+    int drawarr[]={R.drawable.bar_icon_login,R.drawable.menu_icon_map,R.drawable.menu_icon_tabacco,R.drawable.menu_icon_law_fine,R.drawable.menu_icon_notice};
+    String strarr[]={"로그인 하세요.","MAP","TABACCO\nINFORMATION","LAW&FINE","NOTICE"};
+    LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    FrameLayout frame = (FrameLayout) findViewById(R.id.frame) ; //Framelayout객체의 frame에 id가 frame으로 선언된 FrameLayout을 대입.(activity_main 에 선언되어 있음)
+
+    public boolean IsLogin()//로그인 확인
+    {
+        if(user==null)
+            return false;
+        else
+            return true;
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         //톨바 추가
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitleTextColor(Color.parseColor("#000000"));
@@ -53,33 +66,40 @@ public class MainActivity extends AppCompatActivity
 
 
         //메뉴 리스트 초기화
-        listView = (ListView)findViewById(R.id.bar_menu);
-        listViewAdapter = new ListViewAdapter(this);
-        listView.setAdapter(listViewAdapter);
-        if(user==null)
-            listViewAdapter.addItem(getResources().getDrawable(R.drawable.bar_icon_login),"로그인 하세요.");
 
-        for(int i=1;i<7;i++)
+        //list_view   참고 링크 :    http://itmir.tistory.com/477
+        listView = (ListView)findViewById(R.id.bar_menu);   //list_view bar_menu 가져오기
+        listViewAdapter = new ListViewAdapter(this); //list_view_adapter 만들기
+        listView.setAdapter(listViewAdapter); //listview 와 adapter 연결
+
+        // 로그인 메뉴구성
+        // 로그인이 되어있지 않을 경우
+        if(IsLogin())
+            ;
+        else
+            listViewAdapter.addItem(getResources().getDrawable(R.drawable.bar_icon_login),"로그인 하세요.");
+        //그외 메뉴 구성
+        for(int i=1;i<drawarr.length;i++)
             listViewAdapter.addItem(getResources().getDrawable(drawarr[i]),strarr[i]);
+
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id){
-                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                FrameLayout frame = (FrameLayout) findViewById(R.id.frame) ;
-                v=inflater.inflate(layarr[position],frame,false);
-                ChangeScreen(frame,v);
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id){ //position = 몇번째 추가 아이템인지
+                v=inflater.inflate(layarr[position],frame,false); //v=layarr 배열의 position 번째 layout 정보를 담음
+                ChangeScreen(frame,v); //frame layout 변경
             }
         });
+
     }
-    public void onClicked(View v)
+    public void onClickedLogin(View v)//app_bar.xml 에 있는 Image_view 와 연결 되어 있음.우측 마이페이지.
     {
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        FrameLayout frame = (FrameLayout) findViewById(R.id.frame) ;
         v=inflater.inflate(R.layout.content_login,frame,false);
         ChangeScreen(frame,v);
     }
+
+
     public void ChangeScreen(FrameLayout frame,View v)
     {
 
